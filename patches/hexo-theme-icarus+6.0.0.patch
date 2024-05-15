@@ -1,3 +1,89 @@
+diff --git a/node_modules/hexo-theme-icarus/include/style/responsive.styl b/node_modules/hexo-theme-icarus/include/style/responsive.styl
+index ad6be4d..54c46b4 100644
+--- a/node_modules/hexo-theme-icarus/include/style/responsive.styl
++++ b/node_modules/hexo-theme-icarus/include/style/responsive.styl
+@@ -2,11 +2,19 @@
+  *         Responsive Layout
+  * --------------------------------- */
+ +widescreen()
++    .is-3-column .container
++        max-width: $widescreen - $gap
++        width: $widescreen - $gap
++
+     .is-1-column .container, .is-2-column .container
+         max-width: $desktop - 2 * $gap
+         width: $desktop - 2 * $gap
+ 
+ +fullhd()
++    .is-3-column .container
++        max-width: $fullhd - 2 * $gap
++        width: $fullhd - 2 * $gap
++        
+     .is-2-column .container
+         max-width: $widescreen - 2 * $gap
+         width: $widescreen - 2 * $gap
+diff --git a/node_modules/hexo-theme-icarus/include/style/widget.styl b/node_modules/hexo-theme-icarus/include/style/widget.styl
+index b97231f..200b5ce 100644
+--- a/node_modules/hexo-theme-icarus/include/style/widget.styl
++++ b/node_modules/hexo-theme-icarus/include/style/widget.styl
+@@ -63,3 +63,7 @@
+     .widget.card#toc, #toc-mask
+         &.is-active
+             display: block
++
++#toc
++    max-height: calc(100vh - 22px)
++    overflow-y: scroll
+\ No newline at end of file
+diff --git a/node_modules/hexo-theme-icarus/layout/common/article.jsx b/node_modules/hexo-theme-icarus/layout/common/article.jsx
+index c47ec25..609ac48 100644
+--- a/node_modules/hexo-theme-icarus/layout/common/article.jsx
++++ b/node_modules/hexo-theme-icarus/layout/common/article.jsx
+@@ -46,16 +46,27 @@ module.exports = class extends Component {
+                 </div> : null}
+                 <article class={`card-content article${'direction' in page ? ' ' + page.direction : ''}`} role="article">
+                     {/* Metadata */}
++                    {/* Title */}
++                    <h1 className="title is-size-3 is-size-4-mobile has-text-weight-normal">
++                        {index ?
++                            <a className="has-link-black-ter" href={url_for(page.link || page.path)}>
++                                <i className="fas fa-angle-double-right"></i> {' ' +page.title}
++                            </a> :
++                            [<i className="fas fa-angle-double-right"></i>, ' ' +page.title]
++                        }
++                    </h1>
+                     {page.layout !== 'page' ? <div class="article-meta is-size-7 is-uppercase level is-mobile">
+                         <div class="level-left">
+                             {/* Creation Date */}
+-                            {page.date && <span class="level-item" dangerouslySetInnerHTML={{
+-                                __html: _p('article.created_at', `<time dateTime="${date_xml(page.date)}" title="${new Date(page.date).toLocaleString()}">${date(page.date)}</time>`)
+-                            }}></span>}
++                            {page.date && <span class="level-item">
++                                <i className="far fa-calendar-alt">&nbsp;</i>
++                                <time dateTime={date_xml(page.date)} title={date_xml(page.date)}>{date(page.date)}</time>
++                            </span>}
+                             {/* Last Update Date */}
+-                            {shouldShowUpdated && <span class="level-item" dangerouslySetInnerHTML={{
+-                                __html: _p('article.updated_at', `<time dateTime="${date_xml(page.updated)}" title="${new Date(page.updated).toLocaleString()}">${date(page.updated)}</time>`)
+-                            }}></span>}
++                            {shouldShowUpdated && <span class="level-item is-hidden-mobile">
++                                <i class="far fa-calendar-check">&nbsp;</i>
++                                <time dateTime={date_xml(page.updated)} title={date_xml(page.updated)}>{date(page.updated)}</time>
++                            </span>}
+                             {/* author */}
+                             {page.author ? <span class="level-item"> {page.author} </span> : null}
+                             {/* Categories */}
+@@ -86,8 +97,8 @@ module.exports = class extends Component {
+                         </div>
+                     </div> : null}
+                     {/* Title */}
+-                    {page.title !== '' && index ? <p class="title is-3 is-size-4-mobile"><a class="link-muted" href={url_for(page.link || page.path)}>{page.title}</a></p> : null}
+-                    {page.title !== '' && !index ? <h1 class="title is-3 is-size-4-mobile">{page.title}</h1> : null}
++                    {/* {page.title !== '' && index ? <p class="title is-3 is-size-4-mobile"><a class="link-muted" href={url_for(page.link || page.path)}>{page.title}</a></p> : null} */}
++                    {/* {page.title !== '' && !index ? <h1 class="title is-3 is-size-4-mobile">{page.title}</h1> : null} */}
+                     {/* Content/Excerpt */}
+                     <div class="content" dangerouslySetInnerHTML={{ __html: index && page.excerpt ? page.excerpt : page.content }}></div>
+                     {/* Licensing block */}
 diff --git a/node_modules/hexo-theme-icarus/layout/common/footer.jsx b/node_modules/hexo-theme-icarus/layout/common/footer.jsx
 index fcdecd9..e4c3499 100644
 --- a/node_modules/hexo-theme-icarus/layout/common/footer.jsx
@@ -72,4 +158,68 @@ index fcdecd9..e4c3499 100644
 +        // </footer>;
      }
  }
+ 
+diff --git a/node_modules/hexo-theme-icarus/layout/common/widgets.jsx b/node_modules/hexo-theme-icarus/layout/common/widgets.jsx
+index 47c0561..50ba976 100644
+--- a/node_modules/hexo-theme-icarus/layout/common/widgets.jsx
++++ b/node_modules/hexo-theme-icarus/layout/common/widgets.jsx
+@@ -41,7 +41,7 @@ function getColumnCount(widgets, config, page) {
+ function getColumnSizeClass(columnCount) {
+     switch (columnCount) {
+         case 2:
+-            return 'is-4-tablet is-4-desktop is-4-widescreen';
++            return 'is-4-tablet is-4-desktop is-3-widescreen';
+         case 3:
+             return 'is-4-tablet is-4-desktop is-3-widescreen';
+     }
+diff --git a/node_modules/hexo-theme-icarus/layout/layout.jsx b/node_modules/hexo-theme-icarus/layout/layout.jsx
+index 098a278..088d49c 100644
+--- a/node_modules/hexo-theme-icarus/layout/layout.jsx
++++ b/node_modules/hexo-theme-icarus/layout/layout.jsx
+@@ -16,7 +16,7 @@ module.exports = class extends Component {
+ 
+         return <html lang={language ? language.substr(0, 2) : ''}>
+             <Head site={site} config={config} helper={helper} page={page} />
+-            <body class={`is-${columnCount}-column`}>
++            <body class={`is-3-column`}>
+                 <Navbar config={config} helper={helper} page={page} />
+                 <section class="section">
+                     <div class="container">
+@@ -26,7 +26,7 @@ module.exports = class extends Component {
+                                 'order-2': true,
+                                 'column-main': true,
+                                 'is-12': columnCount === 1,
+-                                'is-8-tablet is-8-desktop is-8-widescreen': columnCount === 2,
++                                'is-8-tablet is-8-desktop is-9-widescreen': columnCount === 2,
+                                 'is-8-tablet is-8-desktop is-6-widescreen': columnCount === 3
+                             })} dangerouslySetInnerHTML={{ __html: body }}></div>
+                             <Widgets site={site} config={config} helper={helper} page={page} position={'left'} />
+diff --git a/node_modules/hexo-theme-icarus/source/js/main.js b/node_modules/hexo-theme-icarus/source/js/main.js
+index e235536..e77eabf 100644
+--- a/node_modules/hexo-theme-icarus/source/js/main.js
++++ b/node_modules/hexo-theme-icarus/source/js/main.js
+@@ -20,11 +20,11 @@
+         $('.justified-gallery').justifiedGallery();
+     }
+ 
+-    if (typeof moment === 'function') {
+-        $('.article-meta time').each(function() {
+-            $(this).text(moment($(this).attr('datetime')).fromNow());
+-        });
+-    }
++    // if (typeof moment === 'function') {
++    //     $('.article-meta time').each(function() {
++    //         $(this).text(moment($(this).attr('datetime')).fromNow());
++    //     });
++    // }
+ 
+     $('.article > .content > table').each(function() {
+         if ($(this).width() > $(this).parent().width()) {
+@@ -122,6 +122,7 @@
+ 
+     const $toc = $('#toc');
+     if ($toc.length > 0) {
++        $toc.addClass('column-left is-sticky');
+         const $mask = $('<div>');
+         $mask.attr('id', 'toc-mask');
  
