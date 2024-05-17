@@ -280,31 +280,31 @@ widgets:
         #     Hexo: https://hexo.io
         #     Bulma: https://bulma.io
     # Categories widget configurations
-    # -
+    -
         # Where should the widget be placed, left sidebar or right sidebar
-        # position: left
-        # type: categories
+        position: right
+        type: categories
     # Recent posts widget configurations
-    # -
+    -
         # Where should the widget be placed, left sidebar or right sidebar
-        # position: left
-        # type: recent_posts
+        position: right
+        type: recent_posts
     # Archives widget configurations
-    # -
+    -
         # Where should the widget be placed, left sidebar or right sidebar
-        # position: left
-        # type: archives
+        position: left
+        type: archives
     # Tags widget configurations
-    # -
+    -
         # Where should the widget be placed, left sidebar or right sidebar
-        # position: left
-        # type: tags
+        position: left
+        type: tags
         # How to order tags. For example 'name' to order by name in ascending order, and '-length' to order by number of posts in each tags in descending order
-        # order_by: name
+        order_by: name
         # Amount of tags to show. Will show all if not set.
-        # amount: 
+        amount: 
         # Whether to show tags count, i.e. number of posts in the tag.
-        # show_count: true
+        show_count: true
     # Google FeedBurner email subscription widget configurations
     # -
         # Where should the widget be placed, left sidebar or right sidebar

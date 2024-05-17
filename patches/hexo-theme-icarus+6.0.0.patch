@@ -1,3 +1,17 @@
+diff --git a/node_modules/hexo-theme-icarus/include/style/article.styl b/node_modules/hexo-theme-icarus/include/style/article.styl
+index fa8f763..2d43a1d 100644
+--- a/node_modules/hexo-theme-icarus/include/style/article.styl
++++ b/node_modules/hexo-theme-icarus/include/style/article.styl
+@@ -72,6 +72,9 @@ article
+             pre
+                 font-size: .85em
+ 
++            img
++                box-shadow: 5px 5px 8px #ddd
++
+             code
+                 padding: 0
+                 background: transparent
 diff --git a/node_modules/hexo-theme-icarus/include/style/responsive.styl b/node_modules/hexo-theme-icarus/include/style/responsive.styl
 index ad6be4d..54c46b4 100644
 --- a/node_modules/hexo-theme-icarus/include/style/responsive.styl
@@ -85,80 +99,27 @@ index c47ec25..609ac48 100644
                      <div class="content" dangerouslySetInnerHTML={{ __html: index && page.excerpt ? page.excerpt : page.content }}></div>
                      {/* Licensing block */}
 diff --git a/node_modules/hexo-theme-icarus/layout/common/footer.jsx b/node_modules/hexo-theme-icarus/layout/common/footer.jsx
-index fcdecd9..e4c3499 100644
+index fcdecd9..7176c04 100644
 --- a/node_modules/hexo-theme-icarus/layout/common/footer.jsx
 +++ b/node_modules/hexo-theme-icarus/layout/common/footer.jsx
-@@ -27,38 +27,38 @@ class Footer extends Component {
-             footerLogo = siteTitle;
-         }
- 
--        return <footer class="footer">
--            <div class="container">
--                <div class="level">
+@@ -30,7 +30,7 @@ class Footer extends Component {
+         return <footer class="footer">
+             <div class="container">
+                 <div class="level">
 -                    <div class="level-start">
--                        <a class="footer-logo is-block mb-2" href={siteUrl}>
--                            {footerLogo}
--                        </a>
--                        <p class="is-size-7">
--                            <span dangerouslySetInnerHTML={{ __html: `&copy; ${siteYear} ${author || siteTitle}` }}></span>
--                            &nbsp;&nbsp;Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>&nbsp;&&nbsp;
--                            <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
--                            {showVisitorCounter ? <br /> : null}
--                            {showVisitorCounter ? <span id="busuanzi_container_site_uv"
--                                dangerouslySetInnerHTML={{ __html: visitorCounterTitle }}></span> : null}
--                        </p>
--                        {copyright ? <p class="is-size-7" dangerouslySetInnerHTML={{ __html: copyright }}></p> : null}
++                    {/* <div class="level-start">
+                         <a class="footer-logo is-block mb-2" href={siteUrl}>
+                             {footerLogo}
+                         </a>
+@@ -43,7 +43,7 @@ class Footer extends Component {
+                                 dangerouslySetInnerHTML={{ __html: visitorCounterTitle }}></span> : null}
+                         </p>
+                         {copyright ? <p class="is-size-7" dangerouslySetInnerHTML={{ __html: copyright }}></p> : null}
 -                    </div>
--                    <div class="level-end">
--                        {Object.keys(links).length ? <div class="field has-addons">
--                            {Object.keys(links).map(name => {
--                                const link = links[name];
--                                return <p class="control">
--                                    <a class={`button is-transparent ${link.icon ? 'is-large' : ''}`} target="_blank" rel="noopener" title={name} href={link.url}>
--                                        {link.icon ? <i class={link.icon}></i> : name}
--                                    </a>
--                                </p>;
--                            })}
--                        </div> : null}
--                    </div>
--                </div>
--            </div>
--        </footer>;
-+        // return <footer class="footer">
-+        //     <div class="container">
-+        //         <div class="level">
-+        //             <div class="level-start">
-+        //                 <a class="footer-logo is-block mb-2" href={siteUrl}>
-+        //                     {footerLogo}
-+        //                 </a>
-+        //                 <p class="is-size-7">
-+        //                     <span dangerouslySetInnerHTML={{ __html: `&copy; ${siteYear} ${author || siteTitle}` }}></span>
-+        //                     &nbsp;&nbsp;Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>&nbsp;&&nbsp;
-+        //                     <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
-+        //                     {showVisitorCounter ? <br /> : null}
-+        //                     {showVisitorCounter ? <span id="busuanzi_container_site_uv"
-+        //                         dangerouslySetInnerHTML={{ __html: visitorCounterTitle }}></span> : null}
-+        //                 </p>
-+        //                 {copyright ? <p class="is-size-7" dangerouslySetInnerHTML={{ __html: copyright }}></p> : null}
-+        //             </div>
-+        //             <div class="level-end">
-+        //                 {Object.keys(links).length ? <div class="field has-addons">
-+        //                     {Object.keys(links).map(name => {
-+        //                         const link = links[name];
-+        //                         return <p class="control">
-+        //                             <a class={`button is-transparent ${link.icon ? 'is-large' : ''}`} target="_blank" rel="noopener" title={name} href={link.url}>
-+        //                                 {link.icon ? <i class={link.icon}></i> : name}
-+        //                             </a>
-+        //                         </p>;
-+        //                     })}
-+        //                 </div> : null}
-+        //             </div>
-+        //         </div>
-+        //     </div>
-+        // </footer>;
-     }
- }
- 
++                    </div> */}
+                     <div class="level-end">
+                         {Object.keys(links).length ? <div class="field has-addons">
+                             {Object.keys(links).map(name => {
 diff --git a/node_modules/hexo-theme-icarus/layout/common/widgets.jsx b/node_modules/hexo-theme-icarus/layout/common/widgets.jsx
 index 47c0561..50ba976 100644
 --- a/node_modules/hexo-theme-icarus/layout/common/widgets.jsx

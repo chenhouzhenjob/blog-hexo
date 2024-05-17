@@ -1,13 +1,23 @@
 ---
 title: hexo-theme-icarus主题安装
 date: 2024-05-15 18:15:22
-tags:
-
+tags: 
+- hexo
+- icarus
+categories:
+- hexo
+#封面图
+cover: /file/icarus_page.png
+# 缩列图
+# thumbnail: /file/icarus_page.png
 ---
 
 `hexo-theme-icarus` 是一个简约的主题
+<!-- 之上是简介 -->
+<!-- more -->
 
 
+{% img /file/icarus_page.png "icarus样式图" %}
 icarus 主题安装后，
 
 # 安装
@@ -47,9 +57,11 @@ hexo server
 git submodule 是一个很好的多项目使用共同类库的工具，它允许类库项目做为repository,子项目做为一个单独的git项目存在父项目中，子项目可以有自己的独立的 commit ， push ， pull
 
 
+### 源码介绍
 
 ## 通过NPM安装
 如果我们不需要修改源码的话，推荐采用 NPM的安装方式，这个操作下来更简单。
+
 
 
 ```
@@ -57,3 +69,4 @@ npx patch-package hexo-theme-icarus
 ```
 
 会 生成 patches 目录 记录修改文件的 diff
+[通过NPM安装](#源码介绍)

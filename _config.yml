@@ -3,10 +3,10 @@ subtitle: ''
 description: ''
 keywords: null
 author: John Doe
-language: en
+language: zh-CN
 timezone: ''
 url: http://example.com
-permalink: ':year/:month/:day/:title/'
+permalink: ':title/'
 permalink_defaults: null
 pretty_urls:
   trailing_index: true
